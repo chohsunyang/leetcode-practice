@@ -10,23 +10,24 @@ class Solution:
         hash_table[n] = i #add new hash to table
     return    
  
-# 88. Merge Sorted Array
+# 88. Merge Sorted Array      
 class Solution:
     def merge(self, nums1: List[int], m: int, nums2: List[int], n: int) -> None:
-        # last index nums1
-        last = m + m - 1
+        # last index nums1                  
+        i1 = m - 1
+        i2 = n - 1
+        j = n + m - 1
         
         # merge in reverse order
-        while m > 0 and n > 0:
-            if nums1[m - 1] > nums2[n - 1]:
-                nums1[last] = nums1[m - 1]
-                m -= 1
-            else:
-                nums1[last] = nums2[n - 1]
-                n -= 1
-            last -= 1    
-        # fill nums1 with leftover nums2 elemets
-        while n > 0:
-            nums1[last] = nums2[n - 1]
-            n, last = n - 1, last - 1
-        
+        while j >= 0:
+            if i2 >= 0 and (m == 0 or nums2[i2] >= nums1[i1]):
+                nums1[j] = nums2[i2]
+                i2 -= 1
+            elif i2 > -1 and nums1[i1] > nums2[i2]:
+                nums1[j], nums1[i1] = nums1[i1], nums1[j]
+                if i1: i1 -= 1            
+            j -= 1
+
+        if i2 > -1:
+            for i in range(i2 + 1):
+                nums1[i] = nums2[i]
